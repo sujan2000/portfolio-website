@@ -1,4 +1,4 @@
-# 🚀 Portfolio — Your Name
+# 🚀 Portfolio — Sujan Singh Meena
 
 A **production-grade portfolio** built with **Next.js 16**, **TypeScript**, and **Stripe**, showcasing real-world architecture, security, and performance best practices.
 
@@ -129,9 +129,9 @@ It reflects how I build **real-world applications**, not demos.
 
 ## 📬 Contact
 
-* GitHub: [https://github.com/yourusername](https://github.com/yourusername)
-* LinkedIn: [https://linkedin.com/in/yourusername](https://linkedin.com/in/yourusername)
-* Email: [you@example.com](mailto:you@example.com)
+* GitHub: [https://github.com/sujan2000](https://github.com/sujan2000)
+* LinkedIn: [https://www.linkedin.com/in/sujan-singh-meena-271262202/](https://www.linkedin.com/in/sujan-singh-meena-271262202/)
+* Email: [meena.sujan06@gmail.com](mailto:meena.sujan06@gmail.com)
 
 ---
 
