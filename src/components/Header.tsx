@@ -35,7 +35,7 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/" className={linkClass("/")}>Home</Link>
-
+          <Link href="/about" className={linkClass("/")}>About</Link>
           {session && (
             <Link
               href="/dashboard"
