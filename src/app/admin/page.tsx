@@ -27,37 +27,46 @@ export default async function AdminPage() {
     redirect("/");
   }
 
+  if (!stripe) {
+    return (
+      <section className="container py-20 space-y-10">
+        <h1 className="text-2xl font-medium">Admin Dashboard</h1>
+        <p className="text-[hsl(var(--muted))] text-[15px]">
+          Stripe is not configured. Add <code className="text-[13px] bg-[hsl(var(--border))] px-1.5 py-0.5 rounded">STRIPE_SECRET_KEY</code> to <code className="text-[13px] bg-[hsl(var(--border))] px-1.5 py-0.5 rounded">.env.local</code> to view payments.
+        </p>
+      </section>
+    );
+  }
+
   const payments = await stripe.paymentIntents.list({
-    limit: 10
+    limit: 10,
   });
 
   return (
     <section className="container py-20 space-y-10">
-      {/* Page Title */}
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold tracking-tight">
+        <h1 className="text-2xl font-medium tracking-tight">
           Admin Dashboard
         </h1>
-        <p className="text-white/60 text-sm">
+        <p className="text-[hsl(var(--muted))] text-[15px]">
           Secure overview of recent payments
         </p>
       </div>
 
-      {/* Payments Card */}
-      <div className="card p-8 space-y-6">
-        <h2 className="text-2xl font-semibold">
+      <div className="border border-[hsl(var(--border))] p-6 space-y-6">
+        <h2 className="text-xl font-medium">
           Recent Payments
         </h2>
 
         {payments.data.length === 0 ? (
-          <p className="text-white/60">
+          <p className="text-[hsl(var(--muted))] text-[15px]">
             No payments found.
           </p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-white/60">
+                <tr className="border-b border-[hsl(var(--border))] text-[hsl(var(--muted))] text-[15px]">
                   <th className="py-3 text-left">Payment ID</th>
                   <th className="py-3 text-left">Amount</th>
                   <th className="py-3 text-left">Status</th>
@@ -69,7 +78,7 @@ export default async function AdminPage() {
                 {payments.data.map((payment) => (
                   <tr
                     key={payment.id}
-                    className="border-b border-white/5"
+                    className="border-b border-[hsl(var(--border))]"
                   >
                     <td className="py-3 font-mono text-xs">
                       {payment.id}
@@ -83,7 +92,7 @@ export default async function AdminPage() {
                       {payment.status}
                     </td>
 
-                    <td className="py-3 text-white/60">
+                    <td className="py-3 text-[hsl(var(--muted))]">
                       {new Date(
                         payment.created * 1000
                       ).toLocaleDateString()}

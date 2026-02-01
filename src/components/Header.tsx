@@ -1,111 +1,101 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { signIn, signOut, useSession } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
 
   const isAdmin =
     session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
-  const isActive = (href: string) => pathname === href;
-  const linkClass = (href: string) =>
-    isActive(href)
-      ? "text-[hsl(var(--foreground))] font-medium"
-      : "button-ghost";
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(href));
+
+  const navLinkClass = (href: string) =>
+    isActive(href) ? "nav-link nav-link-active" : "nav-link";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]">
-      <div className="container flex h-14 items-center justify-between">
-        <Link href="/" className="text-[15px] font-medium">
+    <header className="sticky top-0 z-50 border-b border-[hsl(var(--border))] bg-[hsl(var(--background))]/95 backdrop-blur-sm">
+      <div className="container-wide flex h-14 items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="text-[15px] font-semibold tracking-tight hover:opacity-80 transition-opacity shrink-0"
+        >
           SujanSingh
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/" className={linkClass("/")}>
+        <nav className="flex items-center gap-0.5 min-w-0" aria-label="Main">
+          <Link
+            href="/"
+            className={`${navLinkClass("/")} shrink-0`}
+            aria-current={pathname === "/" ? "page" : undefined}
+          >
             Home
           </Link>
-          <Link href="/about" className={linkClass("/about")}>
+          <Link
+            href="/about"
+            className={`${navLinkClass("/about")} shrink-0`}
+            aria-current={isActive("/about") ? "page" : undefined}
+          >
             About
           </Link>
+          <Link href="/#projects" className="nav-link shrink-0">
+            Projects
+          </Link>
+          <Link href="/#contact" className="nav-link shrink-0">
+            Contact
+          </Link>
+
           {session && (
-            <Link href="/dashboard" className={linkClass("/dashboard")}>
-              Dashboard
-            </Link>
+            <>
+              <span className="w-px h-5 bg-[hsl(var(--border))] mx-1 shrink-0" aria-hidden />
+              <Link
+                href="/dashboard"
+                className={`${navLinkClass("/dashboard")} shrink-0`}
+                aria-current={isActive("/dashboard") ? "page" : undefined}
+              >
+                Dashboard
+              </Link>
+            </>
           )}
           {isAdmin && (
-            <Link href="/admin" className={linkClass("/admin")}>
+            <Link
+              href="/admin"
+              className={`${navLinkClass("/admin")} shrink-0`}
+              aria-current={isActive("/admin") ? "page" : undefined}
+            >
               Admin
             </Link>
           )}
-          {session ? (
-            <button onClick={() => signOut()} className="button-ghost">
-              Logout
-            </button>
-          ) : (
-            <button onClick={() => signIn("github")} className="button-primary">
-              Login
-            </button>
-          )}
-          <ThemeToggle />
+
+          <span className="w-px h-5 bg-[hsl(var(--border))] mx-1 shrink-0" aria-hidden />
+
+          <div className="flex items-center gap-8 ml-2">
+            {session ? (
+              <button
+                onClick={() => signOut()}
+                className="nav-link shrink-0"
+                type="button"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => signIn("github")}
+                className="btn-login shrink-0"
+                type="button"
+              >
+                Login
+              </button>
+            )}
+            <ThemeToggle />
+          </div>
         </nav>
-
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden text-[15px] button-ghost"
-          aria-label="Toggle menu"
-        >
-          Menu
-        </button>
       </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="md:hidden border-t border-[hsl(var(--border))]"
-          >
-            <nav className="container flex flex-col gap-1 py-4">
-              <Link href="/" className={linkClass("/")} onClick={() => setOpen(false)}>
-                Home
-              </Link>
-              <Link href="/about" className={linkClass("/about")} onClick={() => setOpen(false)}>
-                About
-              </Link>
-              {session && (
-                <Link href="/dashboard" className={linkClass("/dashboard")} onClick={() => setOpen(false)}>
-                  Dashboard
-                </Link>
-              )}
-              {isAdmin && (
-                <Link href="/admin" className={linkClass("/admin")} onClick={() => setOpen(false)}>
-                  Admin
-                </Link>
-              )}
-              {session ? (
-                <button onClick={() => { setOpen(false); signOut(); }} className="button-ghost text-left">
-                  Logout
-                </button>
-              ) : (
-                <button onClick={() => { setOpen(false); signIn("github"); }} className="button-primary text-left">
-                  Login
-                </button>
-              )}
-              <ThemeToggle />
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }

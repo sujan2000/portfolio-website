@@ -18,6 +18,11 @@ export async function POST(req: Request) {
   if (!success) {
     return new Response("Rate limit", { status: 429 });
   }
+
+  if (!stripe) {
+    return new Response("Stripe not configured", { status: 503 });
+  }
+
   let event: Stripe.Event;
 
   try {
