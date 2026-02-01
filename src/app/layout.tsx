@@ -79,7 +79,7 @@ const inter = Inter({
       <Providers>
         <Header />
 
-        <main className="container py-10">
+        <main className="container py-12">
           <PageTransition>{children}</PageTransition>
         </main>
 

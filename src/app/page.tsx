@@ -7,24 +7,20 @@ export const revalidate = 60;
 
 export default function Home() {
   return (
-    <div className="space-y-32">
-      {/* HERO */}
-      <section className="container pt-24">
+    <div className="space-y-20">
+      <section className="pt-8">
         <Hero />
       </section>
 
-      {/* ABOUT */}
-      <section className="container">
+      <section>
         <AboutSection />
       </section>
 
-      {/* PROJECTS */}
-      <section id="projects" className="container">
+      <section id="projects">
         <ProjectsSection />
       </section>
 
-      {/* PRICING */}
-      <section className="container pb-32">
+      <section className="pb-16">
         <PricingCard />
       </section>
     </div>

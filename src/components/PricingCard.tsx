@@ -8,25 +8,20 @@ export default function PricingCard() {
   };
 
   return (
-    <div className="mx-auto max-w-xl">
-      <div className="card p-8 space-y-6 text-center">
-        <h2 className="text-2xl font-semibold">
-          Support My Work
-        </h2>
-
-        <p className="text-white/70">
-          Buy a consultation or support this portfolio.
-        </p>
-
-        <div className="text-4xl font-bold">$50</div>
-
-        <button
-          onClick={checkout}
-          className="button-primary w-full"
-        >
-          Pay with Stripe
-        </button>
-      </div>
+    <div className="border-t border-[hsl(var(--border))] pt-8">
+      <h2 className="text-xl font-medium">
+        Support My Work
+      </h2>
+      <p className="mt-2 text-[15px] text-[hsl(var(--muted))]">
+        Buy a consultation or support this portfolio.
+      </p>
+      <div className="mt-4 text-2xl font-medium">$50</div>
+      <button
+        onClick={checkout}
+        className="button-primary mt-4"
+      >
+        Pay with Stripe
+      </button>
     </div>
   );
 }
